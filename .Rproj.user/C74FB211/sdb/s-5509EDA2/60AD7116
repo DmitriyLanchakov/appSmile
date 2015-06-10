@@ -1,0 +1,17 @@
+{
+    "contents" : "\n\n#### Draw smiles at day ###\n\nrequire(dplyr)\nrequire(ggplot2)\nsource(file = 'C:\\\\Users\\\\arhipov\\\\Documents\\\\RBackup\\\\.Structure\\\\deriv_vxsmile.R')\n\nlocal( {\n  \n  all.data = read.csv(file = 'c:\\\\1\\\\data\\\\ri_smile.csv', sep = ';',header=T, dec=',')\n  all.data = all.data[-1]\n  all.data$tms = as.Date( substr( as.character(all.data$tms), 0, 10 ) )\n  \n  at.date = all.data %>% filter(tms==as.Date('2010-09-06'))\n  \n  sapply( c(1:nrow(at.date)), function(x){\n    \n    strike = at.date[x,'fut_price', drop=T]\n    fut    = at.date[x,'fut_price', drop=T]\n    tdays  = at.date[1,'t', drop=T]*250\n    coef.vector=as.vector(at.date[x, c('s', 'a', 'b', 'c', 'd', 'e')])\n    vxSmile(strike, fut, tdays, coef.vector)\n    \n    \n  })\n  \n  View(all.data)\n})\n",
+    "created" : 1432300161816.000,
+    "dirty" : false,
+    "encoding" : "CP1251",
+    "folds" : "",
+    "hash" : "3719424441",
+    "id" : "60AD7116",
+    "lastKnownWriteTime" : 1432306714,
+    "path" : "~/RBackup/appSmile/history_manipulation.R",
+    "project_path" : "history_manipulation.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

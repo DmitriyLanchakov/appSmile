@@ -1,0 +1,16 @@
+{
+    "contents" : "\n# This is the server logic for a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\n\nshinyServer(function(input, output) {\n\n  output$distPlot <- renderPlot({\n    \n   \n\n  })\n\n})\n",
+    "created" : 1432300066173.000,
+    "dirty" : false,
+    "encoding" : "CP1251",
+    "folds" : "",
+    "hash" : "2182563795",
+    "id" : "103942F7",
+    "lastKnownWriteTime" : 1432302167,
+    "path" : "~/RBackup/appSmile/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
