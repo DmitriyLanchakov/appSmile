@@ -1,12 +1,12 @@
 {
-    "contents" : "\n# This is the server logic for a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\n\nshinyServer(function(input, output) {\n\n  output$distPlot <- renderPlot({\n    \n   \n\n  })\n\n})\n",
+    "contents" : "\n# This is the server logic for a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nsource(file = 'history_manipulation.R')\n\nlibrary(shiny)\n\nshinyServer(function(input, output) {\n\n  output$dateSlider = renderUI({\n    \n    dateInput('dateSlider', 'Date selector', dates.rng[2], dates.rng[1], dates.rng[2])\n  })\n  \n  output$smileChart = renderPlot({\n    \n    smiles.data = CalcSmilesSeries(strikeRng = input$strikeRngSlider, smileDate = input$dateSlider)\n    ggplot() + geom_line(data = smiles.data, aes(x = Strike, y = IV, color = BaseFutures)) \n  })\n  \n})\n",
     "created" : 1432300066173.000,
     "dirty" : false,
     "encoding" : "CP1251",
     "folds" : "",
-    "hash" : "2182563795",
+    "hash" : "1429359916",
     "id" : "103942F7",
-    "lastKnownWriteTime" : 1432302167,
+    "lastKnownWriteTime" : 1434466700,
     "path" : "~/RBackup/appSmile/server.R",
     "project_path" : "server.R",
     "properties" : {
