@@ -1,12 +1,12 @@
 {
-    "contents" : "\n# This is the user-interface definition of a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\n\nshinyUI(fluidPage(\n\n  titlePanel(\"Volatility smile history\"),\n  \n  fluidRow(\n    column(width = 4,\n           \n           uiOutput('dateSlider')\n           ),\n    \n    column(width = 4, \n           \n            sliderInput('strikeRngSlider', 'Strikes range', 0.05, 0.5, 0.2)\n           )\n    ), \n  \n  fluidRow(\n    column(width = 8,\n      \n      plotOutput('smileChart')\n      )\n    )\n  \n))\n",
+    "contents" : "\n# This is the user-interface definition of a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\n\nshinyUI(fluidPage(\n\n  titlePanel(\"Volatility smile history\"),\n  \n  fluidRow(\n    column(width = 4,\n           \n           uiOutput('dateSlider')\n           ),\n    \n    column(width = 4, \n           \n            sliderInput('strikeRngSlider', 'Strikes range', 0.05, 0.5, 0.2)\n           )\n    ), \n  \n  fluidRow(\n    column(width = 8,\n      \n      plotOutput('smileChart'),\n      plotOutput('rtsChart')\n      )\n    )\n  \n))\n",
     "created" : 1432217685096.000,
     "dirty" : false,
     "encoding" : "CP1251",
     "folds" : "",
-    "hash" : "4154312820",
+    "hash" : "3510534659",
     "id" : "DD926117",
-    "lastKnownWriteTime" : 1434466727,
+    "lastKnownWriteTime" : 1434553076,
     "path" : "~/RBackup/appSmile/ui.R",
     "project_path" : "ui.R",
     "properties" : {

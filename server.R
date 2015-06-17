@@ -19,7 +19,17 @@ shinyServer(function(input, output) {
   output$smileChart = renderPlot({
     
     smiles.data = CalcSmilesSeries(strikeRng = input$strikeRngSlider, smileDate = input$dateSlider)
-    ggplot() + geom_line(data = smiles.data, aes(x = Strike, y = IV, color = BaseFutures)) 
+    
+    ggplot(data = smiles.data,   aes(x = Strike, y = IV, fill = tdays, alpha = 1/t) ) + geom_line(size = 1.5, color = 'blue') 
+  })
+  
+  output$rtsChart = renderPlot({
+    
+    chart.data = rts.data %>% filter(Dates >= dates.rng[1] & Dates <= dates.rng[2])
+    #the.point  = rts.data %>% filter(Dates == input$dateSlider)
+    ggplot(data = chart.data, aes(x = Dates, y = Close) ) + geom_line() + 
+      geom_vline(xintercept = as.numeric(input$dateSlider), color = 'red', linetype = 'dotted')
+    
   })
   
 })

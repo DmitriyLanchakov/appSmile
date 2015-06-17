@@ -26,7 +26,8 @@ shinyUI(fluidPage(
   fluidRow(
     column(width = 8,
       
-      plotOutput('smileChart')
+      plotOutput('smileChart'),
+      plotOutput('rtsChart')
       )
     )
   

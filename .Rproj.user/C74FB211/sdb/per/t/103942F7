@@ -1,12 +1,12 @@
 {
-    "contents" : "\n# This is the server logic for a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nsource(file = 'history_manipulation.R')\n\nlibrary(shiny)\n\nshinyServer(function(input, output) {\n\n  output$dateSlider = renderUI({\n    \n    dateInput('dateSlider', 'Date selector', dates.rng[2], dates.rng[1], dates.rng[2])\n  })\n  \n  output$smileChart = renderPlot({\n    \n    smiles.data = CalcSmilesSeries(strikeRng = input$strikeRngSlider, smileDate = input$dateSlider)\n    ggplot() + geom_line(data = smiles.data, aes(x = Strike, y = IV, color = BaseFutures)) \n  })\n  \n})\n",
+    "contents" : "\n# This is the server logic for a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nsource(file = 'history_manipulation.R')\n\nlibrary(shiny)\n\nshinyServer(function(input, output) {\n\n  output$dateSlider = renderUI({\n    \n    dateInput('dateSlider', 'Date selector', dates.rng[2], dates.rng[1], dates.rng[2])\n  })\n  \n  output$smileChart = renderPlot({\n    \n    smiles.data = CalcSmilesSeries(strikeRng = input$strikeRngSlider, smileDate = input$dateSlider)\n    \n    ggplot(data = smiles.data,   aes(x = Strike, y = IV, fill = tdays, alpha = 1/t) ) + geom_line(size = 1.5, color = 'blue') \n  })\n  \n  output$rtsChart = renderPlot({\n    \n    chart.data = rts.data %>% filter(Dates >= dates.rng[1] & Dates <= dates.rng[2])\n    #the.point  = rts.data %>% filter(Dates == input$dateSlider)\n    ggplot(data = chart.data, aes(x = Dates, y = Close) ) + geom_line() + \n      geom_vline(xintercept = as.numeric(input$dateSlider), color = 'red', linetype = 'dotted')\n    \n  })\n  \n})\n",
     "created" : 1432300066173.000,
     "dirty" : false,
     "encoding" : "CP1251",
     "folds" : "",
-    "hash" : "1429359916",
+    "hash" : "914340109",
     "id" : "103942F7",
-    "lastKnownWriteTime" : 1434466700,
+    "lastKnownWriteTime" : 1434554015,
     "path" : "~/RBackup/appSmile/server.R",
     "project_path" : "server.R",
     "properties" : {
