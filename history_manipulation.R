@@ -8,6 +8,7 @@ require(tidyr)
 require(ggplot2)
 
 
+
 # +------------------------------------+
 # | Prepare data
 # +------------------------------------+
@@ -33,10 +34,16 @@ require(ggplot2)
 # +------------------------------------+
 
   CalcSmilesSeries = function(strikeRng = 0.2, 
-                              smileDate = as.Date('2010-09-06') ){
-    
+                              smileDate = as.Date('2010-09-06'), 
+                              nearest = 0){
+    options(warn=-1)
   ### Find coefs for intuted date
-    vx.at.date = smile.data %>% filter(tms == smileDate)
+    vx.at.date = smile.data %>% filter(tms == smileDate) %>% arrange(t)
+    
+    if(nearest > 0){
+      vx.at.date = vx.at.date[order(vx.at.date$t),]
+      vx.at.date = vx.at.date[1:nearest, ]
+    }
     
   ### Make strikes range, include futures values
     rng = strikeRng  
@@ -59,13 +66,15 @@ require(ggplot2)
     names(smiles) = as.vector(vx.at.date$small_name)
     smiles = gather(data = as.data.frame(c(list(strike = strikes), smiles)), key=strike )
     names(smiles) = c('Strike', 'BaseFutures', 'IV')
-    smiles = vx.at.date %>% select(small_name, t) %>% mutate(tdays = as.factor(round(t * 250, 0))) %>% left_join(smiles, by = c('small_name' = 'BaseFutures'))
-    
+    try({smiles = vx.at.date %>% select(small_name, t) %>% mutate(tdays = as.factor(round(t * 250, 0))) %>% 
+      left_join(smiles, by = c('small_name' = 'BaseFutures'))
+    })
+  
+    options(warn=0)
     return(smiles)
   }
     
-
-
+#(rts.data %>% filter(Close>1000) %>% filter(Close == min(Close)) %>% select(Dates))[[1]]
 
 # +------------------------------------+
 # | IV smile functions

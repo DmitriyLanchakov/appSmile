@@ -14,12 +14,19 @@ shinyUI(fluidPage(
   fluidRow(
     column(width = 4,
            
-           uiOutput('dateSlider')
+           uiOutput('dateSlider'), 
+           numericInput('nearestNum', label = 'Nearest expirations', value = 3, min = 0, step = 1)
            ),
     
     column(width = 4, 
            
-            sliderInput('strikeRngSlider', 'Strikes range', 0.05, 0.5, 0.2)
+             sliderInput('strikeRngSlider', 'Strikes range', 0.05, 0.5, 0.2),
+           
+             fluidRow(
+               column(width = 4, checkboxInput('checkLimit', label = 'Limit Y', value = F)),
+               column(width = 4, numericInput('yminNum', label = 'Y min', value = 20, min = 0, step = 1)),
+               column(width = 4, numericInput('ymaxNum', label = 'Y max', value = 40, min = 0, step = 1))
+               )
            )
     ), 
   

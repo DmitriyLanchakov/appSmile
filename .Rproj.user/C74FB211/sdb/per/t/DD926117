@@ -1,12 +1,12 @@
 {
-    "contents" : "\n# This is the user-interface definition of a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\n\nshinyUI(fluidPage(\n\n  titlePanel(\"Volatility smile history\"),\n  \n  fluidRow(\n    column(width = 4,\n           \n           uiOutput('dateSlider')\n           ),\n    \n    column(width = 4, \n           \n            sliderInput('strikeRngSlider', 'Strikes range', 0.05, 0.5, 0.2)\n           )\n    ), \n  \n  fluidRow(\n    column(width = 8,\n      \n      plotOutput('smileChart'),\n      plotOutput('rtsChart')\n      )\n    )\n  \n))\n",
+    "contents" : "\n# This is the user-interface definition of a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\n\nshinyUI(fluidPage(\n\n  titlePanel(\"Volatility smile history\"),\n  \n  fluidRow(\n    column(width = 4,\n           \n           uiOutput('dateSlider'), \n           numericInput('nearestNum', label = 'Nearest expirations', value = 3, min = 0, step = 1)\n           ),\n    \n    column(width = 4, \n           \n             sliderInput('strikeRngSlider', 'Strikes range', 0.05, 0.5, 0.2),\n           \n             fluidRow(\n               column(width = 4, checkboxInput('checkLimit', label = 'Limit Y', value = F)),\n               column(width = 4, numericInput('yminNum', label = 'Y min', value = 20, min = 0, step = 1)),\n               column(width = 4, numericInput('ymaxNum', label = 'Y max', value = 40, min = 0, step = 1))\n               )\n           )\n    ), \n  \n  fluidRow(\n    column(width = 8,\n      \n      plotOutput('smileChart'),\n      plotOutput('rtsChart')\n      )\n    )\n  \n))\n",
     "created" : 1432217685096.000,
     "dirty" : false,
     "encoding" : "CP1251",
     "folds" : "",
-    "hash" : "3510534659",
+    "hash" : "2811126749",
     "id" : "DD926117",
-    "lastKnownWriteTime" : 1434553076,
+    "lastKnownWriteTime" : 1434625363,
     "path" : "~/RBackup/appSmile/ui.R",
     "project_path" : "ui.R",
     "properties" : {
