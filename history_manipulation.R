@@ -12,7 +12,9 @@ require(ggplot2)
 # +------------------------------------+
 # | Prepare data
 # +------------------------------------+
-  
+
+# TODO: Add RVI or RTSVX level
+
 #   rts.data = read.csv('RTSI.txt') %>% select(c(3, 8)) %>% mutate(Dates = as.Date(as.character(X.DATE.), format='%Y%m%d')) %>% select(c(3, 2))
 #   names(rts.data) = c('Dates', 'Close')
 #   save(rts.data, file = 'rtsi.RData')
@@ -66,15 +68,14 @@ require(ggplot2)
     names(smiles) = as.vector(vx.at.date$small_name)
     smiles = gather(data = as.data.frame(c(list(strike = strikes), smiles)), key=strike )
     names(smiles) = c('Strike', 'BaseFutures', 'IV')
-    try({smiles = vx.at.date %>% select(small_name, t) %>% mutate(tdays = as.factor(round(t * 250, 0))) %>% 
+    try({smiles = vx.at.date %>% select(small_name, t) %>% mutate(tdays = as.character(round(t * 250, 0))) %>% 
       left_join(smiles, by = c('small_name' = 'BaseFutures'))
     })
-  
-    options(warn=0)
+    
     return(smiles)
   }
-    
-#(rts.data %>% filter(Close>1000) %>% filter(Close == min(Close)) %>% select(Dates))[[1]]
+
+
 
 # +------------------------------------+
 # | IV smile functions

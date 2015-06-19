@@ -35,6 +35,8 @@ shinyUI(fluidPage(
       
       plotOutput('smileChart'),
       plotOutput('rtsChart')
+#       plotOutput('rtsChart', click = 'rts_click'), 
+#       verbatimTextOutput('rtsPlotText')
       )
     )
   
