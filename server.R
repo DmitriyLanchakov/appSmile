@@ -9,65 +9,71 @@ source(file = 'history_manipulation.R')
 
 library(shiny)
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
 
   values = reactiveValues()  
-  values$actualDate = 0
+  values$actualDate = dates.rng[2]
+
   
-  output$dateSlider = renderUI({
-    
-    if(values$actualDate > 0) 
-      val = isolate(values$actualDate)
-    else 
-      val = dates.rng[2]
-    
-    dateInput('dateSlider', 'Date selector', val, dates.rng[1], dates.rng[2])
+# +--------------------------------------+
+# | Update date slider at RTS chart click
+# +--------------------------------------+
+   observe({ 
+     
+     clickedRts = nearPoints(rts.data, (input$rts_click), xvar = 'Dates', yvar = 'Close')
+     if(nrow(clickedRts) > 0)
+       inpDate = clickedRts[1, c('Dates'), drop = T]
+
+     updateDateInput(session, inputId = 'dateSlider', value = inpDate, min = dates.rng[1], max = dates.rng[2])
   })
   
-  
-  theDate = reactive({
-    
+
+
+# +------------------------------------+
+# | Set correct date
+# +------------------------------------+
+  observe({
+     
     input$dateSlider
     
     actDate = isolate(values$actualDate)
     inpDate = isolate(input$dateSlider)
-   
-    corDate = inpDate
     
-    if(nrow(filter(smile.data, tms == inpDate)) > 0){
-         
-      values$actualDate = actDate
-    } else {
-      
+    print(paste('actDate = ', actDate,', inpDate = ', inpDate,  sep=''))
+
+    
+    if(nrow(filter(smile.data, tms == inpDate)) == 0){
+
       if(inpDate > actDate){
         
         corDate = (smile.data %>% filter(tms >= inpDate) %>% filter(tms == min(tms)) %>% select(tms))[[1]]
-        values$actualDate = corDate
       } else {
         
         corDate = (smile.data %>% filter(tms <= inpDate) %>% filter(tms == max(tms)) %>% select(tms))[[1]]
-        values$actualDate = corDate
       }
+    } else {
+      
+      corDate = inpDate
     }
    
-    corDate
+     values$actualDate = corDate
+
   })
   
-  
-  output$smileChart = renderPlot({
-    
+
+
+# +------------------------------------+
+# | Draw smile chart
+# +------------------------------------+
+  output$smileChart = renderPlot({ 
     try({
-      the.date = theDate()
       
-      #print(the.date)
-      
+      the.date    = values$actualDate
       smiles.data = CalcSmilesSeries(strikeRng = input$strikeRngSlider, smileDate = the.date, nearest = input$nearestNum)
-      
-      rts.point  = rts.data %>% filter(Dates == the.date) %>% select(Close)
+      rts.point   = rts.data %>% filter(Dates == the.date) %>% select(Close)
       
       iv.chart = ggplot(data = smiles.data, aes(x = Strike, y = IV, fill = tdays, alpha = tdays)) + geom_line(size = 1.5, color = 'blue') +
         theme_bw(base_size = 16) + scale_alpha_discrete(name = "Days til exp") + theme(legend.position = 'bottom')
-      
       
       if(input$checkLimit)
         iv.chart = iv.chart + scale_y_continuous(limit = c(input$yminNum, input$ymaxNum))
@@ -78,21 +84,29 @@ shinyServer(function(input, output) {
     })
   })
   
+
+
+# +------------------------------------+
+# | Draw RTS chart
+# +------------------------------------+
   output$rtsChart = renderPlot({
     try({
+      
     chart.data = rts.data %>% filter(Dates >= dates.rng[1] & Dates <= dates.rng[2])
     #the.point  = rts.data %>% filter(Dates == input$dateSlider)
     ggplot(data = chart.data, aes(x = Dates, y = Close) ) + geom_line() + 
-      geom_vline(xintercept = as.numeric(theDate()), color = 'red', linetype = 'dotted')
+      geom_vline(xintercept = as.numeric(values$actualDate), color = 'red', linetype = 'dotted')
     
     })
   })
   
-#   output$rtsPlotText = renderPrint({
-#     
-#     #str(input$rts_click)
-#     nearPoints(rts.data, input$rts_click, xvar = 'Dates', yvar = 'Close')
-#     
-#   })
+
+
+  output$rtsPlotText = renderPrint({
+    
+    #str(input$rts_click)
+    
+    
+  })
   
 })

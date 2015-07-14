@@ -30,6 +30,7 @@ require(ggplot2)
   dates.rng = c(min(smile.data$tms), max(smile.data$tms))
   
 
+
 # +------------------------------------+
 # | For each option series calc smile
 # | External variables used: all.data
@@ -68,14 +69,16 @@ require(ggplot2)
     names(smiles) = as.vector(vx.at.date$small_name)
     smiles = gather(data = as.data.frame(c(list(strike = strikes), smiles)), key=strike )
     names(smiles) = c('Strike', 'BaseFutures', 'IV')
-    try({smiles = vx.at.date %>% select(small_name, t) %>% mutate(tdays = as.character(round(t * 250, 0))) %>% 
-      left_join(smiles, by = c('small_name' = 'BaseFutures'))
+    try({smiles = vx.at.date %>% select(small_name, t) %>% mutate(tdays = as.factor(round(t * 250, 0))) %>% 
+      left_join(smiles, by = c('small_name' = 'BaseFutures')) %>% arrange(t)
     })
-    
+ 
+
+  
     return(smiles)
   }
 
-
+#CalcSmilesSeries()
 
 # +------------------------------------+
 # | IV smile functions

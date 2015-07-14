@@ -14,7 +14,8 @@ shinyUI(fluidPage(
   fluidRow(
     column(width = 4,
            
-           uiOutput('dateSlider'), 
+           #uiOutput('dateSlider'), 
+           dateInput('dateSlider', 'Input date', value = dates.rng[2], min = dates.rng[1], max = dates.rng[2]),
            numericInput('nearestNum', label = 'Nearest expirations', value = 3, min = 0, step = 1)
            ),
     
@@ -34,9 +35,9 @@ shinyUI(fluidPage(
     column(width = 8,
       
       plotOutput('smileChart'),
-      plotOutput('rtsChart')
-#       plotOutput('rtsChart', click = 'rts_click'), 
-#       verbatimTextOutput('rtsPlotText')
+#      plotOutput('rtsChart')
+       plotOutput('rtsChart', click = 'rts_click'), 
+       verbatimTextOutput('rtsPlotText')
       )
     )
   
