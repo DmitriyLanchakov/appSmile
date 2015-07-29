@@ -34,7 +34,7 @@ require(ggplot2)
 
   CalcSmilesSeries = function(strikeRng = 0.2, 
                               smileDate = as.Date('2010-09-06') ){
-    
+  #  browser()
   ### Find coefs for intuted date
     vx.at.date = smile.data %>% filter(tms == smileDate)
     
@@ -59,11 +59,19 @@ require(ggplot2)
     names(smiles) = as.vector(vx.at.date$small_name)
     smiles = gather(data = as.data.frame(c(list(strike = strikes), smiles)), key=strike )
     names(smiles) = c('Strike', 'BaseFutures', 'IV')
-    smiles = vx.at.date %>% select(small_name, t) %>% mutate(tdays = as.factor(round(t * 250, 0))) %>% left_join(smiles, by = c('small_name' = 'BaseFutures'))
+    smiles$BaseFutures = as.character(smiles$BaseFutures)
+    fut.days = vx.at.date %>% select(small_name, t) %>% mutate(tdays = as.factor(round(t * 250, 0))) 
+    fut.days$small_name = as.character(fut.days$small_name)
+    #%>% 
+    dplyr::left_join(smiles, fut.days, by = c('BaseFutures' = 'small_name'))
     
     return(smiles)
   }
     
+
+  xtest = CalcSmilesSeries()
+  xtest$BaseFutures = as.character(xtest$BaseFutures)
+  str(xtest)
 
 
 

@@ -1,0 +1,51 @@
+{
+    "debugBreakpointsState" : {
+        "breakpoints" : [
+            {
+                "editor_line_number" : 35,
+                "editor_state" : 2,
+                "function_name" : "CalcSmilesSeries",
+                "function_steps" : "",
+                "id" : 1,
+                "is_package_breakpoint" : false,
+                "is_pending_debug_completion" : false,
+                "line_number" : 35,
+                "needs_updated_steps" : false,
+                "package_name" : "",
+                "path" : "~/MyR/appSmile/history_manipulation.R",
+                "state" : 2,
+                "type" : 0
+            },
+            {
+                "editor_line_number" : 68,
+                "editor_state" : 1,
+                "function_name" : "toplevel",
+                "function_steps" : "",
+                "id" : 3,
+                "is_package_breakpoint" : false,
+                "is_pending_debug_completion" : false,
+                "line_number" : 68,
+                "needs_updated_steps" : false,
+                "package_name" : "",
+                "path" : "~/MyR/appSmile/history_manipulation.R",
+                "state" : 1,
+                "type" : 1
+            },
+            {
+                "editor_line_number" : 39,
+                "editor_state" : 2,
+                "function_name" : "CalcSmilesSeries",
+                "function_steps" : "",
+                "id" : 5,
+                "is_package_breakpoint" : false,
+                "is_pending_debug_completion" : false,
+                "line_number" : 39,
+                "needs_updated_steps" : false,
+                "package_name" : "",
+                "path" : "~/MyR/appSmile/history_manipulation.R",
+                "state" : 2,
+                "type" : 0
+            }
+        ]
+    }
+}

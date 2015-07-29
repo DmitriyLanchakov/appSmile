@@ -1,0 +1,18 @@
+{
+    "contents" : "",
+    "created" : 1434569765818.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "1AF3F0BC",
+    "lastKnownWriteTime" : 31244048835477601,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "context" : "debugging:::CalcSmilesSeries"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_code_browser"
+}

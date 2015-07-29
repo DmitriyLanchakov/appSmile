@@ -1,0 +1,9 @@
+{
+    "path" : "~/MyR/appSmile",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}
