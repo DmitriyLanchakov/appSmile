@@ -1,7 +1,7 @@
 
-
-#### Draw smiles at day ###
-
+# + ------------------------------------------------------- +
+# | Draw volatility curves at the end of a selected day     |
+# + ------------------------------------------------------- +
 
 require(dplyr)
 require(tidyr)
@@ -33,14 +33,15 @@ require(ggplot2)
 # +------------------------------------+
 
   CalcSmilesSeries = function(strikeRng = 0.2, 
-                              smileDate = as.Date('2010-09-06') ){
-  #  browser()
-  ### Find coefs for intuted date
-    vx.at.date = smile.data %>% filter(tms == smileDate)
+                              smileDate = as.Date('2015-04-30'),
+                              nearest = 10){
+  
+  ### Find coefs for inputed date
+    vx.at.date = smile.data %>% filter(tms == smileDate) %>% top_n(nearest, 1/t)
     
   ### Make strikes range, include futures values
     rng = strikeRng  
-    strikes = seq(min(vx.at.date$fut_price)*(1-rng), max(vx.at.date$fut_price)*(1+rng), length.out = 50 )
+    strikes = seq( min(vx.at.date$fut_price)*(1-rng), max(vx.at.date$fut_price)*(1+rng), length.out = 50 )
     strikes = sort(c(strikes, vx.at.date$fut_price))
     
   ### Calc smile for every exp.date, strike value
@@ -51,28 +52,31 @@ require(ggplot2)
         fut    = vx.at.date[x.row, 'fut_price', drop=T]
         tdays  = vx.at.date[x.row, 't', drop=T] * 250
         coef.vector = as.vector(vx.at.date[x.row, c('s', 'a', 'b', 'c', 'd', 'e')])
-        vxSmile(strike, fut, tdays, coef.vector, method = 1)
+        vxSmile(strike, fut, tdays, coef.vector, method = 2)
       })
     })
   
   ### Arrange data for ggplot
     names(smiles) = as.vector(vx.at.date$small_name)
+    
     smiles = gather(data = as.data.frame(c(list(strike = strikes), smiles)), key=strike )
+    
     names(smiles) = c('Strike', 'BaseFutures', 'IV')
+    
     smiles$BaseFutures = as.character(smiles$BaseFutures)
-    fut.days = vx.at.date %>% select(small_name, t) %>% mutate(tdays = as.factor(round(t * 250, 0))) 
+    
+    fut.days = vx.at.date %>% 
+      select(small_name, t) %>% 
+      mutate( tdays = (round(t * 250, 0)) ) 
+    
     fut.days$small_name = as.character(fut.days$small_name)
     #%>% 
-    dplyr::left_join(smiles, fut.days, by = c('BaseFutures' = 'small_name'))
-    
+    smiles = dplyr::left_join(smiles, fut.days, by = c('BaseFutures' = 'small_name'))
+    smiles$tdays = as.character(smiles$tdays)
+ 
     return(smiles)
   }
     
-
-  xtest = CalcSmilesSeries()
-  xtest$BaseFutures = as.character(xtest$BaseFutures)
-  str(xtest)
-
 
 
 # +------------------------------------+
