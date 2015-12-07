@@ -8,10 +8,13 @@ require(tidyr)
 require(ggplot2)
 
 
+
 # +------------------------------------+
 # | Prepare data
 # +------------------------------------+
-  
+
+# TODO: Add RVI or RTSVX level
+
 #   rts.data = read.csv('RTSI.txt') %>% select(c(3, 8)) %>% mutate(Dates = as.Date(as.character(X.DATE.), format='%Y%m%d')) %>% select(c(3, 2))
 #   names(rts.data) = c('Dates', 'Close')
 #   save(rts.data, file = 'rtsi.RData')
@@ -27,17 +30,31 @@ require(ggplot2)
   dates.rng = c(min(smile.data$tms), max(smile.data$tms))
   
 
+
 # +------------------------------------+
 # | For each option series calc smile
 # | External variables used: all.data
 # +------------------------------------+
 
   CalcSmilesSeries = function(strikeRng = 0.2, 
+<<<<<<< HEAD
                               smileDate = as.Date('2015-04-30'),
                               nearest = 10){
   
   ### Find coefs for inputed date
     vx.at.date = smile.data %>% filter(tms == smileDate) %>% top_n(nearest, 1/t)
+=======
+                              smileDate = as.Date('2010-09-06'), 
+                              nearest = 0){
+    options(warn=-1)
+  ### Find coefs for intuted date
+    vx.at.date = smile.data %>% filter(tms == smileDate) %>% arrange(t)
+    
+    if(nearest > 0){
+      vx.at.date = vx.at.date[order(vx.at.date$t),]
+      vx.at.date = vx.at.date[1:nearest, ]
+    }
+>>>>>>> origin/master
     
   ### Make strikes range, include futures values
     rng = strikeRng  
@@ -62,6 +79,7 @@ require(ggplot2)
     smiles = gather(data = as.data.frame(c(list(strike = strikes), smiles)), key=strike )
     
     names(smiles) = c('Strike', 'BaseFutures', 'IV')
+<<<<<<< HEAD
     
     smiles$BaseFutures = as.character(smiles$BaseFutures)
     
@@ -74,11 +92,22 @@ require(ggplot2)
     smiles = dplyr::left_join(smiles, fut.days, by = c('BaseFutures' = 'small_name'))
     smiles$tdays = as.character(smiles$tdays)
  
+=======
+    try({smiles = vx.at.date %>% select(small_name, t) %>% mutate(tdays = as.factor(round(t * 250, 0))) %>% 
+      left_join(smiles, by = c('small_name' = 'BaseFutures')) %>% arrange(t)
+    })
+ 
+
+  
+>>>>>>> origin/master
     return(smiles)
   }
-    
 
+<<<<<<< HEAD
+=======
+#CalcSmilesSeries()
 
+>>>>>>> origin/master
 # +------------------------------------+
 # | IV smile functions
 # +------------------------------------+

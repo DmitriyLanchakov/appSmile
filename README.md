@@ -1,4 +1,3 @@
-# appSmile
-FORTS Volatility smile history.
+# FORTS Volatility smile history
 
-Вывод улыбки волатильности опционов на фьючерс на индекс РТС.
+https://apxu-devil.shinyapps.io/HistoricalFortsSmile

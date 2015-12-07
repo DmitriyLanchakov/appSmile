@@ -22,6 +22,10 @@ shinyUI(fluidPage(
   fluidRow(
     column(width = 4,
            
+<<<<<<< HEAD
+=======
+           #uiOutput('dateSlider'), 
+>>>>>>> origin/master
            dateInput('dateSlider', 'Input date', value = dates.rng[2], min = dates.rng[1], max = dates.rng[2]),
            numericInput('nearestNum', label = 'Nearest expirations', value = 3, min = 0, step = 1)
            ),
@@ -39,6 +43,7 @@ shinyUI(fluidPage(
     ), 
   
   fluidRow(
+<<<<<<< HEAD
     column(width = 4,
        
        h3('Volatility smile'),
@@ -49,6 +54,14 @@ shinyUI(fluidPage(
        h3('RTS Index'),
        plotOutput('rtsChart', click = 'rts_click') 
        #verbatimTextOutput('rtsPlotText')
+=======
+    column(width = 8,
+      
+      plotOutput('smileChart'),
+#      plotOutput('rtsChart')
+       plotOutput('rtsChart', click = 'rts_click'), 
+       verbatimTextOutput('rtsPlotText')
+>>>>>>> origin/master
       )
     )
   
